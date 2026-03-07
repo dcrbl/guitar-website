@@ -288,7 +288,7 @@
             if (variation === 'Triad') {
                 formula = CHORD_FORMULAS[triadQuality];
             } else if (variation === '7th') {
-                if (baseQuality === 'maj') formula = CHORD_FORMULAS.maj7;
+                if (baseQuality === 'maj') formula = CHORD_FORMULAS.dom7;
                 else if (baseQuality === 'min') formula = CHORD_FORMULAS.min7;
                 else if (baseQuality === 'dim') formula = CHORD_FORMULAS.dim7;
                 else if (baseQuality === 'dom') formula = CHORD_FORMULAS.dom7;
@@ -541,7 +541,7 @@
             }
 
             if (variation === '7th') {
-                if (baseQuality === 'maj') return noteName + 'maj7';
+                if (baseQuality === 'maj') return noteName + '7';
                 if (baseQuality === 'min') return noteName + 'm7';
                 if (baseQuality === 'dim') return noteName + '°7';
                 if (baseQuality === 'dom') return noteName + '7';
