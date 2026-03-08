@@ -208,8 +208,7 @@
             <div class="control-row">
                 <span class="control-label">Scale:</span>
                 <div class="button-group" id="scaleTypeSelector"></div>
-                <div class="button-group" id="noteNamesToggle" style="margin-left: auto; margin-right: 600px;"></div>
-                <button id="downloadPdfBtn" onclick="downloadPDF()" style="margin-left: 10px;">Download PDF</button>
+                <button id="downloadPdfBtn" onclick="downloadPDF()" style="margin-left: auto;">Download PDF</button>
             </div>
 
             <div class="control-row">
@@ -410,20 +409,13 @@
                     const y = f === 0 ? startY : getFretY(f);
 
                     if (noteName === rootNote && chordNotes.includes(noteName)) {
-                        // Root note - blue fill with small black dot in center
-                        svg += `<circle cx="${x}" cy="${y}" r="8" fill="#4a90e2"/>`;
-                        if (!state.showNoteNames) {
-                            svg += `<circle cx="${x}" cy="${y}" r="2.5" fill="#000000"/>`;
-                        }
-                        if (state.showNoteNames) {
-                            svg += `<text x="${x}" y="${y + 4}" font-size="9" fill="#000000" text-anchor="middle" font-weight="700">${noteName}</text>`;
-                        }
+                        // Root note - blue fill with yellow border
+                        svg += `<circle cx="${x}" cy="${y}" r="8" fill="#4a90e2" stroke="#f5c542" stroke-width="1"/>`;
+                        svg += `<text x="${x}" y="${y}" font-size="9" fill="#000000" text-anchor="middle" dominant-baseline="central" font-weight="700">${noteName}</text>`;
                     } else if (chordNotes.includes(noteName)) {
                         // Chord tone - filled blue
                         svg += `<circle cx="${x}" cy="${y}" r="8" fill="#4a90e2"/>`;
-                        if (state.showNoteNames) {
-                            svg += `<text x="${x}" y="${y + 4}" font-size="9" fill="#000000" text-anchor="middle" font-weight="600">${noteName}</text>`;
-                        }
+                        svg += `<text x="${x}" y="${y}" font-size="9" fill="#000000" text-anchor="middle" dominant-baseline="central" font-weight="600">${noteName}</text>`;
                     } else if (scaleNotes.includes(noteName)) {
                         // Scale note only - small hollow circle
                         svg += `<circle cx="${x}" cy="${y}" r="4" fill="none" stroke="#909090" stroke-width="1.5"/>`;
@@ -580,7 +572,7 @@
             const fretboardH = pageH - margin * 2 - labelH;
             const fretboardW = fretboardH * (200 / 480);
 
-            const gapBetween = 20;
+            const gapBetween = 30;
             const totalGaps = (colCount - 1) * gapBetween;
             const availW = contentW - totalGaps;
             const slotW = availW / colCount;
@@ -635,7 +627,6 @@
                 0: 'Triad', 1: 'Triad', 2: 'Triad', 3: 'Triad',
                 4: 'Triad', 5: 'Triad', 6: 'Triad'
             },
-            showNoteNames: false
         };
 
         const VARIATIONS = ['Triad', '7th', 'Maj7', 'Sus2', 'Sus4', 'Add9', '9th', '11th', '13th'];
@@ -708,18 +699,6 @@
             });
         }
 
-        function renderNoteNamesToggle() {
-            const container = document.getElementById('noteNamesToggle');
-            container.innerHTML = '';
-            const btn = document.createElement('button');
-            btn.textContent = 'Show Note Names';
-            btn.className = state.showNoteNames ? 'active' : '';
-            btn.addEventListener('click', () => {
-                state.showNoteNames = !state.showNoteNames;
-                render();
-            });
-            container.appendChild(btn);
-        }
 
 
         function buildChordName(root, baseQuality, variation) {
@@ -821,7 +800,6 @@
             renderKeySelector();
             renderScaleTypeSelector();
             renderDegreeToggles();
-            renderNoteNamesToggle();
             renderChordGrid();
         }
 
